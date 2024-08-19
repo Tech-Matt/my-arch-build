@@ -148,17 +148,17 @@ for i in groups:
     )
 
 layouts = [
-    layout.Columns(border_focus_stack=["#d75f5f", "#8f3d3d"], border_width=4),
+    # layout.Columns(border_focus_stack=["#d75f5f", "#8f3d3d"], border_width=4),
+    layout.Bsp(), # :)
     layout.Max(),
     # Try more layouts by unleashing below layouts.
-    # layout.Stack(num_stacks=2),
-    # layout.Bsp(),
-    # layout.Matrix(),
-    # layout.MonadTall(),
-    # layout.MonadWide(),
+    layout.Stack(num_stacks=3),
+    layout.Matrix(columns=3),
+    layout.MonadTall(ratio=0.7),
+    layout.MonadWide(ratio=0.6),
     # layout.RatioTile(),
     # layout.Tile(),
-    # layout.TreeTab(),
+    layout.TreeTab(),
     # layout.VerticalTile(),
     # layout.Zoomy(),
 ]
@@ -168,12 +168,11 @@ widget_defaults = dict(
     fontsize=12,
     padding=3,
 )
-                # widget.TextBox("default config", name="default"),
 extension_defaults = widget_defaults.copy()
 
 screens = [
     Screen(
-        bottom=bar.Bar(
+        top=bar.Bar(
             [
                 widget.CurrentLayout(),
                 widget.GroupBox(),
@@ -187,6 +186,7 @@ screens = [
                 ),
                 # NB Systray is incompatible with Wayland, consider using StatusNotifier instead
                 # widget.StatusNotifier(),
+                widget.Battery(),
                 widget.Backlight(backlight_name="intel_backlight"),
                 widget.Volume(),
                 widget.Systray(),
