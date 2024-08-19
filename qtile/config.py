@@ -28,6 +28,7 @@ from libqtile import bar, layout, qtile, widget
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
+from libqtile.widget import backlight
 
 mod = "mod4" # Windows key 
 terminal = guess_terminal()
@@ -78,6 +79,32 @@ keys = [
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
     Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
+
+    # Keys to control widgets
+    # Increase BackLight
+    Key(
+        [],
+        "XF86MonBrightnessUp",
+        lazy.widget['backlight'].change_backlight(backlight.ChangeDirection.UP)
+        ),
+    # Decrease Backlight
+    Key(
+        [],
+        "XF86MonBrightnessDown",
+        lazy.widget['backlight'].change_backlight(backlight.ChangeDirection.DOWN)
+       ),
+    # Increase Volume
+    Key(
+        [],
+        "XF86AudioRaiseVolume",
+        lazy.widget['volume'].increase_vol()
+       ),
+    # Decrease Volume
+    Key(
+        [],
+        "XF86AudioLowerVolume",
+        lazy.widget['volume'].decrease_vol()
+        )
 ]
 
 # Add key bindings to switch VTs in Wayland.
@@ -160,6 +187,8 @@ screens = [
                 ),
                 # NB Systray is incompatible with Wayland, consider using StatusNotifier instead
                 # widget.StatusNotifier(),
+                widget.Backlight(backlight_name="intel_backlight"),
+                widget.Volume(),
                 widget.Systray(),
                 widget.Clock(format="%d-%m-%Y %a %I:%M %p"),
                 widget.QuickExit(),
